@@ -1,3 +1,4 @@
+using System;
 using DefaultNamespace;
 using UnityEngine;
 
@@ -11,6 +12,31 @@ public class Player : MonoBehaviour
 
     private bool _isWalking;
     private Vector3 _lastInteractDirection;
+
+    private void Start()
+    {
+        gameInput.OnInteractAction += GameInputOnOnInteractAction;
+    }
+
+    private void GameInputOnOnInteractAction(object sender, EventArgs e)
+    {
+        Vector2 inputVector = gameInput.GetMovementVectorNormalized();
+
+        Vector3 moveDirection = new Vector3(inputVector.x, 0f, inputVector.y);
+
+        if (moveDirection != Vector3.zero)
+        {
+            _lastInteractDirection = moveDirection;
+        }
+
+        bool isRaycastHit = Physics.Raycast(transform.position, _lastInteractDirection, 
+            out RaycastHit raycastHit, interactDistance,interactionLayerMask);
+        
+        if (isRaycastHit && raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
+        {
+            clearCounter.Interact();
+        }
+    }
 
     private void Update()
     {
@@ -34,7 +60,7 @@ public class Player : MonoBehaviour
         
         if (isRaycastHit && raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
         {
-            clearCounter.Interact();
+            // clearCounter.Interact();
         }
     }
 
