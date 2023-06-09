@@ -412,6 +412,18 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 1
+--- !u!114 &594937846 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4510210594716977588, guid: 9b7acf6382252b547a03708e4eac618a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1917809851}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49d5b3d830c24106b3e9fd21621422f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &741294749
 GameObject:
   m_ObjectHideFlags: 0
@@ -1000,6 +1012,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: ClearCounter (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4510210594716977588, guid: 9b7acf6382252b547a03708e4eac618a,
+        type: 3}
+      propertyPath: kitchenObjectSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 0f48a17b0fb99114b91c3ebbccfca62b,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1073,6 +1091,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: ClearCounter
       objectReference: {fileID: 0}
+    - target: {fileID: 4510210594716977588, guid: 9b7acf6382252b547a03708e4eac618a,
+        type: 3}
+      propertyPath: testing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4510210594716977588, guid: 9b7acf6382252b547a03708e4eac618a,
+        type: 3}
+      propertyPath: secondCounter
+      value: 
+      objectReference: {fileID: 594937846}
+    - target: {fileID: 4510210594716977588, guid: 9b7acf6382252b547a03708e4eac618a,
+        type: 3}
+      propertyPath: kitchenObjectSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 8670f3d28fea0504ca53f8a8747fd8ac,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
