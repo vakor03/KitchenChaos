@@ -13,5 +13,5 @@ public class KitchenObject : MonoBehaviour
     //     }
     // }
 
-    private ClearCounter _clearCounter;
+    // private ClearCounter _clearCounter;
 }
