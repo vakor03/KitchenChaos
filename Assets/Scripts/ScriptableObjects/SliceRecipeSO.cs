@@ -4,7 +4,7 @@ using UnityEngine;
 
 #endregion
 
-namespace Core
+namespace ScriptableObjects
 {
     [CreateAssetMenu()]
     public class SliceRecipeSO : ScriptableObject

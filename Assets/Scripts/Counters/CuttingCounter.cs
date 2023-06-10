@@ -1,11 +1,13 @@
 ﻿#region
 
 using System;
+using Core;
+using ScriptableObjects;
 using UnityEngine;
 
 #endregion
 
-namespace Core
+namespace Counters
 {
     public class CuttingCounter : BaseCounter
     {
@@ -19,10 +21,10 @@ namespace Core
         {
             if (!HasKitchenObject)
             {
-                if (Player.Instance!.HasKitchenObject &&
-                    TryGetRecipeWithInput(Player.Instance.KitchenObject.KitchenObjectSO, out SliceRecipeSO sliceRecipeSO))
+                if (Player.Player.Instance!.HasKitchenObject &&
+                    TryGetRecipeWithInput(Player.Player.Instance.KitchenObject.KitchenObjectSO, out SliceRecipeSO sliceRecipeSO))
                 {
-                    Player.Instance.KitchenObject.KitchenObjectParent = this;
+                    Player.Player.Instance.KitchenObject.KitchenObjectParent = this;
                     _cuttingProgress = 0;
                     
                     OnProgressChanged?.Invoke(GetCuttingProgressNormalized(sliceRecipeSO));
@@ -30,9 +32,9 @@ namespace Core
             }
             else
             {
-                if (!Player.Instance!.HasKitchenObject)
+                if (!Player.Player.Instance!.HasKitchenObject)
                 {
-                    KitchenObject.KitchenObjectParent = Player.Instance;
+                    KitchenObject.KitchenObjectParent = Player.Player.Instance;
                 }
             }
         }

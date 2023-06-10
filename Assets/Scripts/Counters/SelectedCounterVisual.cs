@@ -4,7 +4,7 @@ using UnityEngine;
 
 #endregion
 
-namespace Core
+namespace Counters
 {
     public class SelectedCounterVisual : MonoBehaviour
     {
@@ -13,7 +13,7 @@ namespace Core
 
         private void Start()
         {
-            Player.Instance!.OnSelectedCounterChanged += PlayerOnSelectedCounterChanged;
+            Player.Player.Instance!.OnSelectedCounterChanged += PlayerOnSelectedCounterChanged;
         }
 
         private void PlayerOnSelectedCounterChanged(BaseCounter selectedCounter)
