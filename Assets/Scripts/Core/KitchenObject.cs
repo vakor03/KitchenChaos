@@ -28,7 +28,7 @@ namespace Core
 
                 _kitchenObjectParent = value;
                 value.KitchenObject = this;
-                
+
                 transform.parent = value.SpawnPoint;
                 transform.localPosition = Vector3.zero;
                 transform.localRotation = Quaternion.identity;
@@ -41,11 +41,14 @@ namespace Core
             Destroy(gameObject);
         }
 
-        public static void SpawnKitchenObject(KitchenObjectSO kitchenObjectSO, 
+        public static KitchenObject SpawnKitchenObject(KitchenObjectSO kitchenObjectSO,
             IKitchenObjectParent kitchenObjectParent)
         {
             Transform kitchenObjectTransform = Instantiate(kitchenObjectSO.prefab);
-            kitchenObjectTransform.GetComponent<KitchenObject>().KitchenObjectParent = kitchenObjectParent;
+            KitchenObject kitchenObject = kitchenObjectTransform.GetComponent<KitchenObject>();
+            kitchenObject.KitchenObjectParent = kitchenObjectParent;
+
+            return kitchenObject;
         }
     }
-} 
+}
