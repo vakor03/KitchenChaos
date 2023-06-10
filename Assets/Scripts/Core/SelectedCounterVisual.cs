@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿#region
+
+using UnityEngine;
+
+#endregion
 
 namespace Core
 {
@@ -6,6 +10,7 @@ namespace Core
     {
         [SerializeField] private ClearCounter clearCounter;
         [SerializeField] private GameObject visualGameObject;
+
         private void Start()
         {
             Player.Instance!.OnSelectedCounterChanged += PlayerOnSelectedCounterChanged;
@@ -23,14 +28,14 @@ namespace Core
             }
         }
 
-        private void Show()
-        {
-            visualGameObject.SetActive(true);
-        }
-
         private void Hide()
         {
             visualGameObject.SetActive(false);
+        }
+
+        private void Show()
+        {
+            visualGameObject.SetActive(true);
         }
     }
 }

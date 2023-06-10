@@ -1,38 +1,44 @@
-﻿using UnityEngine;
+﻿#region
+
+using UnityEngine;
+
+#endregion
 
 namespace Core
 {
-    public class ClearCounter : MonoBehaviour
+    public class ClearCounter : MonoBehaviour, IKitchenObjectParent
     {
-        // [SerializeField] private KitchenObjectSO kitchenObjectSO;
         [SerializeField] private Transform counterTopPoint;
 
-        [SerializeField] private ClearCounter secondCounter;
-        [SerializeField] private bool testing;
-
-        // public bool HasKitchenObject => _kitchenObject != null;
+        [SerializeField] private KitchenObjectSO kitchenObjectSO;
         private KitchenObject _kitchenObject;
 
-        private void Update()
+        public bool HasKitchenObject => _kitchenObject != null;
+
+        public KitchenObject KitchenObject
         {
-            if (testing && Input.GetKeyDown(KeyCode.T))
-            {
-                // _kitchenObject.ClearCounter = secondCounter;
-            }
+            set => _kitchenObject = value;
         }
+
+        public Transform SpawnPoint => counterTopPoint;
+
+        public void ClearKitchenObject()
+        {
+            _kitchenObject = null;
+        }
+
 
         public void Interact()
         {
             if (_kitchenObject is null)
             {
-                // Transform kitchenObject = Instantiate(kitchenObjectSO.prefab, counterTopPoint);
-                // kitchenObject.localPosition = Vector3.zero;
-                // _kitchenObject = kitchenObject.GetComponent<KitchenObject>();
+                Transform kitchenObject = Instantiate(kitchenObjectSO.prefab, counterTopPoint);
+                kitchenObject.GetComponent<KitchenObject>().KitchenObjectParent = this;
             }
-        
-        
-        
-            Debug.Log("Interact");
+            else
+            {
+                _kitchenObject.KitchenObjectParent = Player.Instance;
+            }
         }
     }
 }

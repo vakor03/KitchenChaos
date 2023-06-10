@@ -1,22 +1,31 @@
 #nullable enable
+
+#region
+
 using System;
 using UnityEngine;
 
+#endregion
+
 namespace Core
 {
-    public class Player : MonoBehaviour
+    public class Player : MonoBehaviour, IKitchenObjectParent
     {
-        public static Player? Instance { get; private set; }
-        public event Action<ClearCounter?> OnSelectedCounterChanged;
-        [SerializeField] private float speed = 7f;
-        [SerializeField] private float rotateSpeed = 10f;
         [SerializeField] private GameInput gameInput;
         [SerializeField] private float interactDistance = 2f;
         [SerializeField] private LayerMask interactionLayerMask;
 
+        [SerializeField] private Transform itemHoldPoint;
+        [SerializeField] private float rotateSpeed = 10f;
+
+        [SerializeField] private float speed = 7f;
         private bool _isWalking;
+
+        private KitchenObject? _kitchenObject;
         private Vector3 _lastInteractDirection;
         private ClearCounter? _selectedCounter;
+
+        public static Player? Instance { get; private set; }
 
         private void Awake()
         {
@@ -35,15 +44,37 @@ namespace Core
             gameInput.OnInteractAction += GameInputOnOnInteractAction;
         }
 
-        private void GameInputOnOnInteractAction(object sender, EventArgs e)
-        {
-            if(_selectedCounter != null)_selectedCounter.Interact();
-        }
-
         private void Update()
         {
             HandleMovement();
             HandleInteractions();
+        }
+
+        public bool HasKitchenObject => _kitchenObject != null;
+
+        public KitchenObject KitchenObject
+        {
+            get => _kitchenObject!;
+            set => _kitchenObject = value;
+        }
+
+        public Transform SpawnPoint => itemHoldPoint;
+
+        public void ClearKitchenObject()
+        {
+            _kitchenObject = null;
+        }
+
+        public event Action<ClearCounter?> OnSelectedCounterChanged;
+
+        public bool IsWalking()
+        {
+            return _isWalking;
+        }
+
+        private void GameInputOnOnInteractAction(object sender, EventArgs e)
+        {
+            if(_selectedCounter != null)_selectedCounter.Interact();
         }
 
         private void HandleInteractions()
@@ -73,13 +104,6 @@ namespace Core
             }
         }
 
-        private void SetSelectedCounter(ClearCounter? selectedCounter)
-        {
-            _selectedCounter = selectedCounter;
-        
-            OnSelectedCounterChanged?.Invoke(_selectedCounter);
-        }
-
         private void HandleMovement()
         {
             Vector2 inputVector = gameInput.GetMovementVectorNormalized();
@@ -100,6 +124,13 @@ namespace Core
 
 
             transform.forward = Vector3.Slerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
+        }
+
+        private void SetSelectedCounter(ClearCounter? selectedCounter)
+        {
+            _selectedCounter = selectedCounter;
+        
+            OnSelectedCounterChanged?.Invoke(_selectedCounter);
         }
 
         private bool TryMoveInDirection(float playerHeight, float playerRadius, float moveDistance,
@@ -138,11 +169,6 @@ namespace Core
             }
 
             return canMove;
-        }
-
-        public bool IsWalking()
-        {
-            return _isWalking;
         }
     }
 }

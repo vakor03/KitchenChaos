@@ -195,7 +195,7 @@ PrefabInstance:
         type: 3}
       propertyPath: kitchenObjectSO
       value: 
-      objectReference: {fileID: 11400000, guid: 0f48a17b0fb99114b91c3ebbccfca62b,
+      objectReference: {fileID: 11400000, guid: 48378d0615898774c96b9303e59b1b77,
         type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -667,6 +667,49 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1186555146
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1186555147}
+  m_Layer: 0
+  m_Name: HoldPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1186555147
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1186555146}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.4, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1583365488}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1196680516 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4510210594716977588, guid: 424103fc1c9fcc748af12039c163d6c6,
+    type: 3}
+  m_PrefabInstance: {fileID: 87403566}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49d5b3d830c24106b3e9fd21621422f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1212045261
 GameObject:
   m_ObjectHideFlags: 3
@@ -916,13 +959,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35b57c38947975540b6113aed4422047, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7
-  rotateSpeed: 10
   gameInput: {fileID: 741294750}
   interactDistance: 2
   interactionLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  itemHoldPoint: {fileID: 1186555147}
+  rotateSpeed: 10
+  speed: 7
 --- !u!4 &1583365488
 Transform:
   m_ObjectHideFlags: 0
@@ -936,6 +980,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 772681026}
+  - {fileID: 1186555147}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1081,9 +1126,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4510210594716977588, guid: 424103fc1c9fcc748af12039c163d6c6,
         type: 3}
+      propertyPath: testing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4510210594716977588, guid: 424103fc1c9fcc748af12039c163d6c6,
+        type: 3}
+      propertyPath: secondCounter
+      value: 
+      objectReference: {fileID: 1196680516}
+    - target: {fileID: 4510210594716977588, guid: 424103fc1c9fcc748af12039c163d6c6,
+        type: 3}
       propertyPath: kitchenObjectSO
       value: 
-      objectReference: {fileID: 11400000, guid: 8670f3d28fea0504ca53f8a8747fd8ac,
+      objectReference: {fileID: 11400000, guid: 93d18169aa51e2c4f9544d1f5b9bc843,
         type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

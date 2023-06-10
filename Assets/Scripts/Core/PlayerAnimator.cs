@@ -1,14 +1,18 @@
-﻿using UnityEngine;
+﻿#region
+
+using UnityEngine;
+
+#endregion
 
 namespace Core
 {
     [RequireComponent(typeof(Animator))]
     public class PlayerAnimator : MonoBehaviour
     {
-        private Animator _animator;
-        [SerializeField] private Player player;
-
         private const string IS_WALKING = "IsWalking";
+
+        [SerializeField] private Player player;
+        private Animator _animator;
 
         private void Awake()
         {
