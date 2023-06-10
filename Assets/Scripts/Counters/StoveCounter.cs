@@ -11,6 +11,14 @@ namespace Counters
 {
     public class StoveCounter : BaseCounter
     {
+        public enum State
+        {
+            Idle,
+            Frying,
+            Fried,
+            Burned
+        }
+
         [SerializeField] private FryingRecipeSO[] fryingRecipeSOArray;
         [SerializeField] private BurningRecipeSO[] burningRecipeSOArray;
         private float _burningTimer;
@@ -20,7 +28,7 @@ namespace Counters
         private State _currentState;
         private float _fryingTimer;
 
-        private void Start()
+        public void Start()
         {
             _currentState = State.Idle;
         }
@@ -47,6 +55,8 @@ namespace Counters
             }
         }
 
+        public event Action<State> OnStateChanged;
+
         private void RunFryingState()
         {
             _fryingTimer += Time.deltaTime;
@@ -59,6 +69,7 @@ namespace Counters
                 _currentState = State.Fried;
 
                 _currentBurningRecipeSO = GetBurningRecipeWithInput(KitchenObject.KitchenObjectSO);
+                OnStateChanged?.Invoke(_currentState);
             }
         }
 
@@ -73,6 +84,7 @@ namespace Counters
                 KitchenObject.SpawnKitchenObject(_currentBurningRecipeSO.output, this);
 
                 _currentState = State.Burned;
+                OnStateChanged?.Invoke(_currentState);
             }
         }
 
@@ -88,7 +100,9 @@ namespace Counters
                     _currentFryingRecipeSO = fryingRecipeSO;
 
                     _currentState = State.Frying;
+                    OnStateChanged?.Invoke(_currentState);
                     _fryingTimer = 0f;
+                    _burningTimer = 0f;
                 }
             }
             else
@@ -98,6 +112,7 @@ namespace Counters
                     KitchenObject.KitchenObjectParent = Player.Player.Instance;
 
                     _currentState = State.Idle;
+                    OnStateChanged?.Invoke(_currentState);
                 }
             }
         }
@@ -128,14 +143,6 @@ namespace Counters
             }
 
             return null;
-        }
-
-        private enum State
-        {
-            Idle,
-            Frying,
-            Fried,
-            Burned
         }
     }
 }
