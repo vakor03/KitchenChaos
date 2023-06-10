@@ -11,7 +11,7 @@ namespace Counters
 {
     public class CuttingCounter : BaseCounter
     {
-        [SerializeField] private SliceRecipeSO[] sliceRecipesSO;
+        [SerializeField] private SliceRecipeSO[] sliceRecipeSOArray;
 
         private int _cuttingProgress;
         public event Action<float> OnProgressChanged;
@@ -57,7 +57,7 @@ namespace Counters
 
         private bool TryGetRecipeWithInput(KitchenObjectSO inputSO, out SliceRecipeSO sliceRecipeSO)
         {
-            foreach (var sliceRecipe in sliceRecipesSO)
+            foreach (var sliceRecipe in sliceRecipeSOArray)
             {
                 if (sliceRecipe.input == inputSO)
                 {

@@ -35,7 +35,7 @@ namespace Counters
 
         public virtual void InteractAlternate()
         {
-            Debug.LogError("BaseCounter.InteractAlternate()");
+            // Debug.LogError("BaseCounter.InteractAlternate()");
         }
     }
 }

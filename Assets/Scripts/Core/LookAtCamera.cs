@@ -1,18 +1,14 @@
-﻿using System;
+﻿#region
+
+using System;
 using UnityEngine;
+
+#endregion
 
 namespace Core
 {
     public class LookAtCamera : MonoBehaviour
     {
-        private enum Mode
-        {
-            LookAt,
-            LookAtInverted,
-            CameraForward,
-            CameraForwardInverted,
-        }
-
         [SerializeField] private Mode mode;
 
         private void LateUpdate()
@@ -36,6 +32,14 @@ namespace Core
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private enum Mode
+        {
+            LookAt,
+            LookAtInverted,
+            CameraForward,
+            CameraForwardInverted,
         }
     }
 }

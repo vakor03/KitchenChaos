@@ -661,7 +661,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   counterTopPoint: {fileID: 6286264237371404219}
-  sliceRecipesSO:
+  sliceRecipeSOArray:
   - {fileID: 11400000, guid: 1ec5385b2d6b9594eb36001beec6d589, type: 2}
   - {fileID: 11400000, guid: 56f187d4499065b4aa93f7b7610763ce, type: 2}
   - {fileID: 11400000, guid: 472600a49be2c464abe5c0b995c0328e, type: 2}
