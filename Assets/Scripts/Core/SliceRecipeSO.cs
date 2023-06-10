@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿#region
+
+using UnityEngine;
+
+#endregion
 
 namespace Core
 {
@@ -7,6 +11,6 @@ namespace Core
     {
         public KitchenObjectSO input;
         public KitchenObjectSO output;
-        public int neededCuts;
+        public int cuttingProgressMax;
     }
 }
