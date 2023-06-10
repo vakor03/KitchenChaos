@@ -74,7 +74,7 @@ namespace Core
 
         private void GameInputOnOnInteractAction(object sender, EventArgs e)
         {
-            if(_selectedCounter != null)_selectedCounter.Interact();
+            if (_selectedCounter != null) _selectedCounter.Interact();
         }
 
         private void HandleInteractions()
@@ -88,9 +88,9 @@ namespace Core
                 _lastInteractDirection = moveDirection;
             }
 
-            bool isRaycastHit = Physics.Raycast(transform.position, _lastInteractDirection, 
-                out RaycastHit raycastHit, interactDistance,interactionLayerMask);
-        
+            bool isRaycastHit = Physics.Raycast(transform.position, _lastInteractDirection,
+                out RaycastHit raycastHit, interactDistance, interactionLayerMask);
+
             if (isRaycastHit && raycastHit.transform.TryGetComponent(out BaseCounter baseCounter))
             {
                 if (baseCounter != _selectedCounter)
@@ -129,7 +129,7 @@ namespace Core
         private void SetSelectedCounter(BaseCounter? selectedCounter)
         {
             _selectedCounter = selectedCounter;
-        
+
             OnSelectedCounterChanged?.Invoke(_selectedCounter);
         }
 
@@ -145,7 +145,7 @@ namespace Core
             if (!canMove)
             {
                 Vector3 moveDirectionX = new Vector3(moveDirection.x, 0, 0).normalized;
-                if (!Physics.CapsuleCast(transform.position,
+                if (moveDirection.x != 0 && !Physics.CapsuleCast(transform.position,
                         transform.position + Vector3.up * playerHeight,
                         playerRadius,
                         moveDirectionX,
@@ -157,7 +157,7 @@ namespace Core
 
                 Vector3 moveDirectionZ = new Vector3(0, 0, moveDirection.z).normalized;
 
-                if (!Physics.CapsuleCast(transform.position,
+                if (moveDirection.z != 0 && !Physics.CapsuleCast(transform.position,
                         transform.position + Vector3.up * playerHeight,
                         playerRadius,
                         moveDirectionZ,
