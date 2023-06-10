@@ -1,14 +1,19 @@
-﻿using UnityEngine;
+﻿#region
 
-namespace DefaultNamespace
+using UnityEngine;
+
+#endregion
+
+namespace Core
 {
     [RequireComponent(typeof(Animator))]
     public class PlayerAnimator : MonoBehaviour
     {
-        private Animator _animator;
-        [SerializeField] private Player player;
-
         private const string IS_WALKING = "IsWalking";
+        private static readonly int IsWalkingHash = Animator.StringToHash(IS_WALKING);
+
+        [SerializeField] private Player player;
+        private Animator _animator;
 
         private void Awake()
         {
@@ -17,7 +22,7 @@ namespace DefaultNamespace
 
         private void Update()
         {
-            _animator.SetBool(IS_WALKING, player.IsWalking());
+            _animator.SetBool(IsWalkingHash, player.IsWalking());
         }
     }
 }
