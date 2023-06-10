@@ -16,10 +16,13 @@ namespace Core
         {
             _playerInputActions = new PlayerInputActions();
             _playerInputActions.Player.Enable();
-            _playerInputActions.Player.Interact.performed += InteractOnStarted;
+            _playerInputActions.Player.Interact.performed += InteractOnPerformed;
+            _playerInputActions.Player.InteractAlternate.performed += InteractAlternateOnPerformed;
         }
 
         public event EventHandler OnInteractAction;
+
+        public event EventHandler OnAlternateInteractAction;
 
         public Vector2 GetMovementVectorNormalized()
         {
@@ -28,9 +31,14 @@ namespace Core
             return inputVectorNormalized;
         }
 
-        private void InteractOnStarted(InputAction.CallbackContext obj)
+        private void InteractOnPerformed(InputAction.CallbackContext obj)
         {
             OnInteractAction?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void InteractAlternateOnPerformed(InputAction.CallbackContext obj)
+        {
+            OnAlternateInteractAction?.Invoke(this, EventArgs.Empty);
         }
     }
 }

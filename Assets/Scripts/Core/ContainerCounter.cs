@@ -17,8 +17,8 @@ namespace Core
         {
             if (!Player.Instance!.HasKitchenObject)
             {
-                Transform kitchenObject = Instantiate(kitchenObjectSO.prefab);
-                kitchenObject.GetComponent<KitchenObject>().KitchenObjectParent = Player.Instance;
+                KitchenObject.SpawnKitchenObject(kitchenObjectSO, Player.Instance);
+                
                 OnItemGrabbed?.Invoke();
             }
         }

@@ -28,11 +28,27 @@ namespace Core
 
                 _kitchenObjectParent = value;
                 value.KitchenObject = this;
-                
+
                 transform.parent = value.SpawnPoint;
                 transform.localPosition = Vector3.zero;
                 transform.localRotation = Quaternion.identity;
             }
         }
+
+        public void DestroySelf()
+        {
+            _kitchenObjectParent.ClearKitchenObject();
+            Destroy(gameObject);
+        }
+
+        public static KitchenObject SpawnKitchenObject(KitchenObjectSO kitchenObjectSO,
+            IKitchenObjectParent kitchenObjectParent)
+        {
+            Transform kitchenObjectTransform = Instantiate(kitchenObjectSO.prefab);
+            KitchenObject kitchenObject = kitchenObjectTransform.GetComponent<KitchenObject>();
+            kitchenObject.KitchenObjectParent = kitchenObjectParent;
+
+            return kitchenObject;
+        }
     }
-} 
+}
