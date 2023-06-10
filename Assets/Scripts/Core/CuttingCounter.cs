@@ -9,16 +9,19 @@ namespace Core
 {
     public class CuttingCounter : BaseCounter
     {
-        [SerializeField] private SliceRecipe[] sliceRecipesSO;
+        [SerializeField] private SliceRecipeSO[] sliceRecipesSO;
+
+        private int _cuttingProgress;
 
         public override void Interact()
         {
             if (!HasKitchenObject)
             {
                 if (Player.Instance!.HasKitchenObject &&
-                    CheckAvailableRecipes(Player.Instance.KitchenObject.KitchenObjectSO))
+                    TryGetRecipeWithInput(Player.Instance.KitchenObject.KitchenObjectSO, out _))
                 {
                     Player.Instance.KitchenObject.KitchenObjectParent = this;
+                    _cuttingProgress = 0;
                 }
             }
             else
@@ -32,39 +35,31 @@ namespace Core
 
         public override void InteractAlternate()
         {
-            if (HasKitchenObject && CheckAvailableRecipes(KitchenObject.KitchenObjectSO))
+            if (HasKitchenObject && TryGetRecipeWithInput(KitchenObject.KitchenObjectSO, out SliceRecipeSO sliceRecipeSO))
             {
-                KitchenObjectSO recipeOutput = GetSliceRecipeOutput(KitchenObject.KitchenObjectSO);
-                KitchenObject.DestroySelf();
-
-                KitchenObject.SpawnKitchenObject(recipeOutput, this);
-            }
-        }
-
-        private bool CheckAvailableRecipes(KitchenObjectSO kitchenObjectSO)
-        {
-            foreach (var sliceRecipe in sliceRecipesSO)
-            {
-                if (sliceRecipe.input == kitchenObjectSO)
+                _cuttingProgress++;
+                
+                if (_cuttingProgress == sliceRecipeSO.neededCuts)
                 {
-                    return true;
+                    KitchenObject.DestroySelf(); 
+                    KitchenObject.SpawnKitchenObject(sliceRecipeSO.output, this);
                 }
             }
-
-            return false;
         }
 
-        private KitchenObjectSO GetSliceRecipeOutput(KitchenObjectSO inputSO)
+        private bool TryGetRecipeWithInput(KitchenObjectSO inputSO, out SliceRecipeSO sliceRecipeSO)
         {
             foreach (var sliceRecipe in sliceRecipesSO)
             {
                 if (sliceRecipe.input == inputSO)
                 {
-                    return sliceRecipe.output;
+                    sliceRecipeSO = sliceRecipe;
+                    return true;
                 }
             }
 
-            return null;
+            sliceRecipeSO = null;
+            return false;
         }
     }
 }
