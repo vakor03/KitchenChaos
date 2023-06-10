@@ -34,5 +34,18 @@ namespace Core
                 transform.localRotation = Quaternion.identity;
             }
         }
+
+        public void DestroySelf()
+        {
+            _kitchenObjectParent.ClearKitchenObject();
+            Destroy(gameObject);
+        }
+
+        public static void SpawnKitchenObject(KitchenObjectSO kitchenObjectSO, 
+            IKitchenObjectParent kitchenObjectParent)
+        {
+            Transform kitchenObjectTransform = Instantiate(kitchenObjectSO.prefab);
+            kitchenObjectTransform.GetComponent<KitchenObject>().KitchenObjectParent = kitchenObjectParent;
+        }
     }
 } 

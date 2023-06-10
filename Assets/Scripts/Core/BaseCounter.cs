@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Core
 {
-    public abstract class BaseCounter : MonoBehaviour, IKitchenObjectParent
+    public class BaseCounter : MonoBehaviour, IKitchenObjectParent
     {
         [SerializeField] private Transform counterTopPoint;
 
@@ -27,6 +27,14 @@ namespace Core
             _kitchenObject = null;
         }
 
-        public abstract void Interact();
+        public virtual void Interact()
+        {
+            Debug.LogError("BaseCounter.Interact()");
+        }
+
+        public virtual void InteractAlternate()
+        {
+            Debug.LogError("BaseCounter.InteractAlternate()");
+        }
     }
 }

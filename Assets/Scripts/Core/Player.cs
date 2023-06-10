@@ -27,6 +27,16 @@ namespace Core
 
         public static Player? Instance { get; private set; }
 
+        public bool HasKitchenObject => _kitchenObject != null;
+
+        public KitchenObject KitchenObject
+        {
+            get => _kitchenObject!;
+            set => _kitchenObject = value;
+        }
+
+        public Transform SpawnPoint => itemHoldPoint;
+
         private void Awake()
         {
             if (Instance != null)
@@ -42,6 +52,7 @@ namespace Core
         private void Start()
         {
             gameInput.OnInteractAction += GameInputOnOnInteractAction;
+            gameInput.OnAlternateInteractAction += GameInputOnOnAlternateInteractAction;
         }
 
         private void Update()
@@ -49,16 +60,6 @@ namespace Core
             HandleMovement();
             HandleInteractions();
         }
-
-        public bool HasKitchenObject => _kitchenObject != null;
-
-        public KitchenObject KitchenObject
-        {
-            get => _kitchenObject!;
-            set => _kitchenObject = value;
-        }
-
-        public Transform SpawnPoint => itemHoldPoint;
 
         public void ClearKitchenObject()
         {
@@ -70,6 +71,11 @@ namespace Core
         public bool IsWalking()
         {
             return _isWalking;
+        }
+
+        private void GameInputOnOnAlternateInteractAction(object sender, EventArgs e)
+        {
+            if (_selectedCounter != null) _selectedCounter.InteractAlternate();
         }
 
         private void GameInputOnOnInteractAction(object sender, EventArgs e)
