@@ -6,38 +6,25 @@ using UnityEngine;
 
 namespace Core
 {
-    public class ClearCounter : MonoBehaviour, IKitchenObjectParent
+    public class ClearCounter : BaseCounter
     {
-        [SerializeField] private Transform counterTopPoint;
-
         [SerializeField] private KitchenObjectSO kitchenObjectSO;
-        private KitchenObject _kitchenObject;
 
-        public bool HasKitchenObject => _kitchenObject != null;
-
-        public KitchenObject KitchenObject
+        public override void Interact()
         {
-            set => _kitchenObject = value;
-        }
-
-        public Transform SpawnPoint => counterTopPoint;
-
-        public void ClearKitchenObject()
-        {
-            _kitchenObject = null;
-        }
-
-
-        public void Interact()
-        {
-            if (_kitchenObject is null)
+            if (!HasKitchenObject)
             {
-                Transform kitchenObject = Instantiate(kitchenObjectSO.prefab, counterTopPoint);
-                kitchenObject.GetComponent<KitchenObject>().KitchenObjectParent = this;
+                if (Player.Instance!.HasKitchenObject)
+                {
+                    Player.Instance.KitchenObject.KitchenObjectParent = this;
+                }
             }
             else
             {
-                _kitchenObject.KitchenObjectParent = Player.Instance;
+                if (!Player.Instance!.HasKitchenObject)
+                {
+                    KitchenObject.KitchenObjectParent = Player.Instance;
+                }
             }
         }
     }

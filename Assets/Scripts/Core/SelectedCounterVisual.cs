@@ -8,17 +8,17 @@ namespace Core
 {
     public class SelectedCounterVisual : MonoBehaviour
     {
-        [SerializeField] private ClearCounter clearCounter;
-        [SerializeField] private GameObject visualGameObject;
+        [SerializeField] private BaseCounter baseCounter;
+        [SerializeField] private GameObject[] visualGameObjectArray;
 
         private void Start()
         {
             Player.Instance!.OnSelectedCounterChanged += PlayerOnSelectedCounterChanged;
         }
 
-        private void PlayerOnSelectedCounterChanged(ClearCounter selectedCounter)
+        private void PlayerOnSelectedCounterChanged(BaseCounter selectedCounter)
         {
-            if (selectedCounter == clearCounter)
+            if (selectedCounter == baseCounter)
             {
                 Show();
             }
@@ -30,12 +30,18 @@ namespace Core
 
         private void Hide()
         {
-            visualGameObject.SetActive(false);
+            foreach (var visualGameObject in visualGameObjectArray)
+            {
+                visualGameObject.SetActive(false);
+            }
         }
 
         private void Show()
         {
-            visualGameObject.SetActive(true);
+            foreach (var visualGameObject in visualGameObjectArray)
+            {
+                visualGameObject.SetActive(true);
+            }
         }
     }
 }

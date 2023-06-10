@@ -10,6 +10,7 @@ namespace Core
     public class PlayerAnimator : MonoBehaviour
     {
         private const string IS_WALKING = "IsWalking";
+        private static readonly int IsWalkingHash = Animator.StringToHash(IS_WALKING);
 
         [SerializeField] private Player player;
         private Animator _animator;
@@ -21,7 +22,7 @@ namespace Core
 
         private void Update()
         {
-            _animator.SetBool(IS_WALKING, player.IsWalking());
+            _animator.SetBool(IsWalkingHash, player.IsWalking());
         }
     }
 }

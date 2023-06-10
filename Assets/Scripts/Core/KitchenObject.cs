@@ -31,6 +31,7 @@ namespace Core
                 
                 transform.parent = value.SpawnPoint;
                 transform.localPosition = Vector3.zero;
+                transform.localRotation = Quaternion.identity;
             }
         }
     }

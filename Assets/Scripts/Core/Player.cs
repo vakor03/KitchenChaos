@@ -23,7 +23,7 @@ namespace Core
 
         private KitchenObject? _kitchenObject;
         private Vector3 _lastInteractDirection;
-        private ClearCounter? _selectedCounter;
+        private BaseCounter? _selectedCounter;
 
         public static Player? Instance { get; private set; }
 
@@ -65,7 +65,7 @@ namespace Core
             _kitchenObject = null;
         }
 
-        public event Action<ClearCounter?> OnSelectedCounterChanged;
+        public event Action<BaseCounter?> OnSelectedCounterChanged;
 
         public bool IsWalking()
         {
@@ -91,11 +91,11 @@ namespace Core
             bool isRaycastHit = Physics.Raycast(transform.position, _lastInteractDirection, 
                 out RaycastHit raycastHit, interactDistance,interactionLayerMask);
         
-            if (isRaycastHit && raycastHit.transform.TryGetComponent(out ClearCounter clearCounter))
+            if (isRaycastHit && raycastHit.transform.TryGetComponent(out BaseCounter baseCounter))
             {
-                if (clearCounter != _selectedCounter)
+                if (baseCounter != _selectedCounter)
                 {
-                    SetSelectedCounter(clearCounter);
+                    SetSelectedCounter(baseCounter);
                 }
             }
             else
@@ -126,7 +126,7 @@ namespace Core
             transform.forward = Vector3.Slerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
         }
 
-        private void SetSelectedCounter(ClearCounter? selectedCounter)
+        private void SetSelectedCounter(BaseCounter? selectedCounter)
         {
             _selectedCounter = selectedCounter;
         
