@@ -11,8 +11,6 @@ namespace Counters
 {
     public class StoveCounter : BaseCounter, IHasProgress
     {
-        public event Action<float> OnProgressChanged;
-
         public enum State
         {
             Idle,
@@ -57,6 +55,8 @@ namespace Counters
                 }
             }
         }
+
+        public event Action<float> OnProgressChanged;
 
         public event Action<State> OnStateChanged;
 

@@ -1,9 +1,7 @@
 ﻿#region
 
 using System;
-using Counters;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 #endregion
@@ -16,6 +14,7 @@ namespace Core
         [SerializeField] private Image barImage;
 
         private IHasProgress _hasProgress;
+
         private void Start()
         {
             _hasProgress = hasProgressGameObject.GetComponent<IHasProgress>();
