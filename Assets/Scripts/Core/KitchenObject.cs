@@ -1,5 +1,6 @@
 ﻿#region
 
+using ScriptableObjects;
 using UnityEngine;
 
 #endregion

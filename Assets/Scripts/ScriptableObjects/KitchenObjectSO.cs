@@ -5,7 +5,7 @@ using UnityEngine;
 
 #endregion
 
-namespace Core
+namespace ScriptableObjects
 {
     [CreateAssetMenu(menuName = "KitchenObjectsSO")]
     public class KitchenObjectSO : ScriptableObject

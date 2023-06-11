@@ -4,13 +4,13 @@ using UnityEngine;
 
 #endregion
 
-namespace Core
+namespace ScriptableObjects
 {
     [CreateAssetMenu()]
-    public class SliceRecipeSO : ScriptableObject
+    public class FryingRecipeSO : ScriptableObject
     {
         public KitchenObjectSO input;
         public KitchenObjectSO output;
-        public int cuttingProgressMax;
+        public int fryingTimerMax;
     }
 }

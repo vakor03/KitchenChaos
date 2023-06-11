@@ -1,10 +1,11 @@
 ﻿#region
 
+using ScriptableObjects;
 using UnityEngine;
 
 #endregion
 
-namespace Core
+namespace Counters
 {
     public class ClearCounter : BaseCounter
     {
@@ -14,16 +15,16 @@ namespace Core
         {
             if (!HasKitchenObject)
             {
-                if (Player.Instance!.HasKitchenObject)
+                if (Player.Player.Instance!.HasKitchenObject)
                 {
-                    Player.Instance.KitchenObject.KitchenObjectParent = this;
+                    Player.Player.Instance.KitchenObject.KitchenObjectParent = this;
                 }
             }
             else
             {
-                if (!Player.Instance!.HasKitchenObject)
+                if (!Player.Player.Instance!.HasKitchenObject)
                 {
-                    KitchenObject.KitchenObjectParent = Player.Instance;
+                    KitchenObject.KitchenObjectParent = Player.Player.Instance;
                 }
             }
         }

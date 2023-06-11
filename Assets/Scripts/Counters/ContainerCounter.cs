@@ -1,11 +1,13 @@
 ﻿#region
 
 using System;
+using Core;
+using ScriptableObjects;
 using UnityEngine;
 
 #endregion
 
-namespace Core
+namespace Counters
 {
     public class ContainerCounter : BaseCounter
     {
@@ -15,9 +17,9 @@ namespace Core
 
         public override void Interact()
         {
-            if (!Player.Instance!.HasKitchenObject)
+            if (!Player.Player.Instance!.HasKitchenObject)
             {
-                KitchenObject.SpawnKitchenObject(kitchenObjectSO, Player.Instance);
+                KitchenObject.SpawnKitchenObject(kitchenObjectSO, Player.Player.Instance);
                 
                 OnItemGrabbed?.Invoke();
             }

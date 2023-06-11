@@ -3,11 +3,13 @@
 #region
 
 using System;
+using Core;
+using Counters;
 using UnityEngine;
 
 #endregion
 
-namespace Core
+namespace Player
 {
     public class Player : MonoBehaviour, IKitchenObjectParent
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 #endregion
 
-namespace Core
+namespace Counters
 {
     [RequireComponent(typeof(Animator))]
     public class CuttingCounterVisual : MonoBehaviour

@@ -1,10 +1,11 @@
 ﻿#region
 
+using Core;
 using UnityEngine;
 
 #endregion
 
-namespace Core
+namespace Counters
 {
     public class BaseCounter : MonoBehaviour, IKitchenObjectParent
     {
@@ -34,7 +35,7 @@ namespace Core
 
         public virtual void InteractAlternate()
         {
-            Debug.LogError("BaseCounter.InteractAlternate()");
+            // Debug.LogError("BaseCounter.InteractAlternate()");
         }
     }
 }
