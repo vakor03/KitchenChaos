@@ -12,7 +12,7 @@ namespace Counters
     public class PlateCounter : BaseCounter
     {
         [SerializeField] private KitchenObjectSO plateKitchenObjectSO;
-        
+
         private float _plateSpawnMaxTimer = 4f;
         private float _plateSpawnTimer;
         private int _platesSpawnedCount;

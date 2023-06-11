@@ -1,7 +1,6 @@
 ﻿#region
 
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 #endregion
@@ -13,13 +12,13 @@ namespace Counters
         [SerializeField] private PlateCounter plateCounter;
         [SerializeField] private Transform platePrefab;
         [SerializeField] private Transform counterTopPoint;
-        private List<Transform> _plates;
 
         private int _platesCount;
+        private List<Transform> _platesVisuals;
 
         private void Awake()
         {
-            _plates = new List<Transform>();
+            _platesVisuals = new List<Transform>();
         }
 
         private void Start()
@@ -30,15 +29,15 @@ namespace Counters
 
         private void PlateCounterOnPlateRemoved()
         {
-            Destroy(_plates[^1].gameObject);
+            Destroy(_platesVisuals[^1].gameObject);
             _platesCount--;
-            _plates.RemoveAt(_plates.Count - 1);
+            _platesVisuals.RemoveAt(_platesVisuals.Count - 1);
         }
 
         private void PlateCounterOnPlateSpawned()
         {
             Transform plateTransform = Instantiate(platePrefab, counterTopPoint);
-            _plates.Add(plateTransform);
+            _platesVisuals.Add(plateTransform);
             float plateOffsetY = 0.1f;
             plateTransform.localPosition = new Vector3(0, plateOffsetY * _platesCount++, 0);
         }
