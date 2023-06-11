@@ -9,8 +9,10 @@ using UnityEngine;
 
 namespace Counters
 {
-    public class StoveCounter : BaseCounter
+    public class StoveCounter : BaseCounter, IHasProgress
     {
+        public event Action<float> OnProgressChanged;
+
         public enum State
         {
             Idle,
@@ -27,6 +29,7 @@ namespace Counters
         private FryingRecipeSO _currentFryingRecipeSO;
         private State _currentState;
         private float _fryingTimer;
+
 
         public void Start()
         {
@@ -57,9 +60,11 @@ namespace Counters
 
         public event Action<State> OnStateChanged;
 
+
         private void RunFryingState()
         {
             _fryingTimer += Time.deltaTime;
+            OnProgressChanged?.Invoke(_fryingTimer/_currentFryingRecipeSO.fryingTimerMax);
             if (_fryingTimer > _currentFryingRecipeSO.fryingTimerMax)
             {
                 KitchenObject.DestroySelf();
@@ -70,12 +75,14 @@ namespace Counters
 
                 _currentBurningRecipeSO = GetBurningRecipeWithInput(KitchenObject.KitchenObjectSO);
                 OnStateChanged?.Invoke(_currentState);
+                OnProgressChanged?.Invoke(0f);
             }
         }
 
         private void RunFriedState()
         {
             _burningTimer += Time.deltaTime;
+            OnProgressChanged?.Invoke(_burningTimer/_currentBurningRecipeSO.burningTimerMax);
             
             if (_burningTimer > _currentBurningRecipeSO.burningTimerMax)
             {
@@ -85,6 +92,7 @@ namespace Counters
 
                 _currentState = State.Burned;
                 OnStateChanged?.Invoke(_currentState);
+                OnProgressChanged?.Invoke(0f);
             }
         }
 
@@ -101,6 +109,7 @@ namespace Counters
 
                     _currentState = State.Frying;
                     OnStateChanged?.Invoke(_currentState);
+                    OnProgressChanged?.Invoke(0f);
                     _fryingTimer = 0f;
                     _burningTimer = 0f;
                 }
@@ -113,6 +122,7 @@ namespace Counters
 
                     _currentState = State.Idle;
                     OnStateChanged?.Invoke(_currentState);
+                    OnProgressChanged?.Invoke(0f);
                 }
             }
         }

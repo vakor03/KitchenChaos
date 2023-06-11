@@ -3,6 +3,7 @@
 using System;
 using Counters;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 #endregion
@@ -11,19 +12,27 @@ namespace Core
 {
     public class ProgressBarUI : MonoBehaviour
     {
-        [SerializeField] private CuttingCounter cuttingCounter;
+        [SerializeField] private GameObject hasProgressGameObject;
         [SerializeField] private Image barImage;
 
+        private IHasProgress _hasProgress;
         private void Start()
         {
-            cuttingCounter.OnProgressChanged += CuttingCounterOnProgressChanged;
+            _hasProgress = hasProgressGameObject.GetComponent<IHasProgress>();
+            if (_hasProgress is null)
+            {
+                Debug.LogError(
+                    $"GameObject {hasProgressGameObject} doesn't have {typeof(IHasProgress)} interface implemented");
+            }
+            
+            _hasProgress!.OnProgressChanged += IHasProgressOnProgressChanged;
 
             barImage.fillAmount = 0f;
 
             Hide();
         }
 
-        private void CuttingCounterOnProgressChanged(float fillAmountNormalized)
+        private void IHasProgressOnProgressChanged(float fillAmountNormalized)
         {
             barImage.fillAmount = fillAmountNormalized;
 

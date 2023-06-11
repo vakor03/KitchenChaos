@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Counters
 {
-    public class CuttingCounter : BaseCounter
+    public class CuttingCounter : BaseCounter, IHasProgress
     {
         [SerializeField] private SliceRecipeSO[] sliceRecipeSOArray;
 
