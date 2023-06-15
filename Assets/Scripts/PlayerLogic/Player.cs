@@ -9,7 +9,7 @@ using UnityEngine;
 
 #endregion
 
-namespace Player
+namespace PlayerLogic
 {
     public class Player : MonoBehaviour, IKitchenObjectParent
     {

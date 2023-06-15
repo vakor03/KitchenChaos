@@ -1,12 +1,18 @@
-﻿namespace Counters
+﻿#region
+
+using PlayerLogic;
+
+#endregion
+
+namespace Counters
 {
     public class TrashCounter : BaseCounter
     {
         public override void Interact()
         {
-            if (Player.Player.Instance!.HasKitchenObject)
+            if (Player.Instance!.HasKitchenObject)
             {
-                Player.Player.Instance!.KitchenObject.DestroySelf();   
+                Player.Instance!.KitchenObject.DestroySelf();   
             }
         }
     }

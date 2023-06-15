@@ -1,5 +1,6 @@
 ﻿#region
 
+using PlayerLogic;
 using UnityEngine;
 
 #endregion
@@ -13,7 +14,7 @@ namespace Counters
 
         private void Start()
         {
-            Player.Player.Instance!.OnSelectedCounterChanged += PlayerOnSelectedCounterChanged;
+            Player.Instance!.OnSelectedCounterChanged += PlayerOnSelectedCounterChanged;
         }
 
         private void PlayerOnSelectedCounterChanged(BaseCounter selectedCounter)

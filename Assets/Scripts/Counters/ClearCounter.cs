@@ -1,5 +1,7 @@
 ﻿#region
 
+using Core;
+using PlayerLogic;
 using ScriptableObjects;
 using UnityEngine;
 
@@ -15,16 +17,38 @@ namespace Counters
         {
             if (!HasKitchenObject)
             {
-                if (Player.Player.Instance!.HasKitchenObject)
+                //Clear counter doesn't have kitchen object
+                if (Player.Instance!.HasKitchenObject)
                 {
-                    Player.Player.Instance.KitchenObject.KitchenObjectParent = this;
+                    Player.Instance.KitchenObject.KitchenObjectParent = this;
                 }
             }
             else
             {
-                if (!Player.Player.Instance!.HasKitchenObject)
+                //Clear counter has kitchen object
+                if (Player.Instance!.HasKitchenObject)
                 {
-                    KitchenObject.KitchenObjectParent = Player.Player.Instance;
+                    if (Player.Instance!.KitchenObject.TryGetPlate(out PlateKitchenObject plateKitchenObject))
+                    {
+                        //Player holds plate
+                        if (plateKitchenObject.TryAddIngredient(KitchenObject.KitchenObjectSO))
+                        {
+                            KitchenObject.DestroySelf();
+                        }
+                    }
+                    else if (KitchenObject.TryGetPlate(out plateKitchenObject))
+                    {
+                        //Plate on the clear counter
+                        if (plateKitchenObject.TryAddIngredient(Player.Instance!.KitchenObject.KitchenObjectSO))
+                        {
+                            Player.Instance!.KitchenObject.DestroySelf();
+                        }
+                    }
+                }
+                else
+                {
+                    //Picking up
+                    KitchenObject.KitchenObjectParent = Player.Instance;
                 }
             }
         }

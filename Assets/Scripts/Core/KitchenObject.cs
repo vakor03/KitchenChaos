@@ -42,6 +42,11 @@ namespace Core
             Destroy(gameObject);
         }
 
+        public bool TryGetPlate(out PlateKitchenObject plateKitchenObject)
+        {
+            return (plateKitchenObject = this as PlateKitchenObject) != null;
+        }
+
         public static KitchenObject SpawnKitchenObject(KitchenObjectSO kitchenObjectSO,
             IKitchenObjectParent kitchenObjectParent)
         {

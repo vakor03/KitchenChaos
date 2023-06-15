@@ -2,6 +2,7 @@
 
 using System;
 using Core;
+using PlayerLogic;
 using ScriptableObjects;
 using UnityEngine;
 
@@ -17,9 +18,9 @@ namespace Counters
 
         public override void Interact()
         {
-            if (!Player.Player.Instance!.HasKitchenObject)
+            if (!Player.Instance!.HasKitchenObject)
             {
-                KitchenObject.SpawnKitchenObject(kitchenObjectSO, Player.Player.Instance);
+                KitchenObject.SpawnKitchenObject(kitchenObjectSO, Player.Instance);
                 
                 OnItemGrabbed?.Invoke();
             }
