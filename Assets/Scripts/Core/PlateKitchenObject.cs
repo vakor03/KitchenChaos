@@ -1,5 +1,6 @@
 ﻿#region
 
+using System;
 using System.Collections.Generic;
 using ScriptableObjects;
 using UnityEngine;
@@ -18,6 +19,8 @@ namespace Core
             _ingredients = new List<KitchenObjectSO>();
         }
 
+        public event Action<KitchenObjectSO> OnAddIngredient;
+
         public bool TryAddIngredient(KitchenObjectSO kitchenObjectSO)
         {
             if (!validIngredientsSO.Contains(kitchenObjectSO) ||
@@ -26,6 +29,7 @@ namespace Core
                 return false;
             }
             _ingredients.Add(kitchenObjectSO);
+            OnAddIngredient?.Invoke(kitchenObjectSO);
             return true;
         }
     }
