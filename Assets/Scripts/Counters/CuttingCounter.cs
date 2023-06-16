@@ -17,6 +17,7 @@ namespace Counters
         private int _cuttingProgress;
         public event Action<float> OnProgressChanged;
         public event Action OnCut;
+        public static event Action<CuttingCounter> OnAnyCut;
 
         public override void Interact()
         {
@@ -57,6 +58,7 @@ namespace Counters
                 _cuttingProgress++;
                 OnProgressChanged?.Invoke(GetCuttingProgressNormalized(sliceRecipeSO));
                 OnCut?.Invoke();
+                OnAnyCut?.Invoke(this);
                 
                 if (_cuttingProgress == sliceRecipeSO.cuttingProgressMax)
                 {

@@ -28,13 +28,19 @@ namespace PlayerLogic
         private BaseCounter? _selectedCounter;
 
         public static Player? Instance { get; private set; }
-
         public bool HasKitchenObject => _kitchenObject != null;
 
         public KitchenObject KitchenObject
         {
             get => _kitchenObject!;
-            set => _kitchenObject = value;
+            set
+            {
+                _kitchenObject = value;
+                if (_kitchenObject != null)
+                {
+                    OnPickedSomething?.Invoke();
+                }
+            }
         }
 
         public Transform SpawnPoint => itemHoldPoint;
@@ -62,6 +68,8 @@ namespace PlayerLogic
             HandleMovement();
             HandleInteractions();
         }
+
+        public event Action OnPickedSomething;
 
         public void ClearKitchenObject()
         {

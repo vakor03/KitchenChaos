@@ -1,5 +1,6 @@
 ﻿#region
 
+using System;
 using Core;
 using UnityEngine;
 
@@ -18,10 +19,18 @@ namespace Counters
         public KitchenObject KitchenObject
         {
             get => _kitchenObject;
-            set => _kitchenObject = value;
+            set
+            {
+                _kitchenObject = value;
+                if (_kitchenObject!=null)
+                {
+                    OnAnyObjectPlacedHere?.Invoke(this);
+                }
+            }
         }
 
         public Transform SpawnPoint => counterTopPoint;
+        public static event Action<BaseCounter> OnAnyObjectPlacedHere;
 
         public void ClearKitchenObject()
         {

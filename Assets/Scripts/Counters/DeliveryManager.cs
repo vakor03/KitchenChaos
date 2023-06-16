@@ -1,9 +1,11 @@
 ﻿#region
 
+using System;
 using System.Collections.Generic;
 using Core;
 using ScriptableObjects;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 #endregion
 
@@ -15,7 +17,10 @@ namespace Counters
         private float _spawnRecipeTimer;
         private float _spawnRecipeTimerMax = 4f;
         private int _waitingRecipesMax = 4;
+
         private List<RecipeSO> _waitingRecipeSOList;
+
+        public List<RecipeSO> WaitingRecipeSOList => _waitingRecipeSOList;
 
         public static DeliveryManager Instance { get; private set; }
 
@@ -35,11 +40,16 @@ namespace Counters
                 {
                     RecipeSO waitingRecipeSO =
                         recipeSOList.recipeSOList[Random.Range(0, recipeSOList.recipeSOList.Count)];
-                    Debug.Log(waitingRecipeSO.recipeName);
                     _waitingRecipeSOList.Add(waitingRecipeSO);
+                    OnRecipeSpawned?.Invoke();
                 }
             }
         }
+
+        public event Action OnRecipeSpawned;
+        public event Action OnRecipeCompleted;
+        public event Action OnRecipeSuccess;
+        public event Action OnRecipeFailed;
 
         public void DeliverRecipe(PlateKitchenObject plateKitchenObject)
         {
@@ -56,12 +66,13 @@ namespace Counters
 
                 if (plateContentsMatches)
                 {
-                    Debug.Log("Correct recipe");
                     _waitingRecipeSOList.RemoveAt(i);
+                    OnRecipeCompleted?.Invoke();
+                    OnRecipeSuccess?.Invoke();
                     return;
                 }
             }
-            Debug.Log("Incorrect recipe");
+            OnRecipeFailed?.Invoke();
         }
 
         private static bool CompareRecipeWithPlateContent(PlateKitchenObject plateKitchenObject, RecipeSO waitingRecipeSO)
