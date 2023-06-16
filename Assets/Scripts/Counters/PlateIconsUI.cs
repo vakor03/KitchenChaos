@@ -1,7 +1,10 @@
-﻿using System;
+﻿#region
+
 using Core;
 using ScriptableObjects;
 using UnityEngine;
+
+#endregion
 
 namespace Counters
 {

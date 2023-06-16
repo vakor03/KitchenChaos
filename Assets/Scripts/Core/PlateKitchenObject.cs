@@ -12,8 +12,8 @@ namespace Core
     public class PlateKitchenObject : KitchenObject
     {
         [SerializeField] private List<KitchenObjectSO> validIngredientsSO;
-        public List<KitchenObjectSO> KitchenObjectSOList => _ingredients;
         private List<KitchenObjectSO> _ingredients;
+        public List<KitchenObjectSO> KitchenObjectSOList => _ingredients;
 
         private void Awake()
         {
