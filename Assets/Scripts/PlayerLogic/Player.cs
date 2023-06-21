@@ -59,8 +59,8 @@ namespace PlayerLogic
 
         private void Start()
         {
-            gameInput.OnInteractAction += GameInputOnOnInteractAction;
-            gameInput.OnAlternateInteractAction += GameInputOnOnAlternateInteractAction;
+            gameInput.OnInteractAction += GameInputOnInteractAction;
+            gameInput.OnAlternateInteractAction += GameInputOnAlternateInteractAction;
         }
 
         private void Update()
@@ -83,13 +83,23 @@ namespace PlayerLogic
             return _isWalking;
         }
 
-        private void GameInputOnOnAlternateInteractAction(object sender, EventArgs e)
+        private void GameInputOnAlternateInteractAction(object sender, EventArgs e)
         {
+            if (!GameManager.Instance.IsGamePlaying)
+            {
+                return;
+            }
+
             if (_selectedCounter != null) _selectedCounter.InteractAlternate();
         }
 
-        private void GameInputOnOnInteractAction(object sender, EventArgs e)
+        private void GameInputOnInteractAction(object sender, EventArgs e)
         {
+            if (!GameManager.Instance.IsGamePlaying)
+            {
+                return;
+            }
+
             if (_selectedCounter != null) _selectedCounter.Interact();
         }
 
