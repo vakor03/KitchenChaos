@@ -11,7 +11,13 @@ namespace Core
 {
     public class SoundManager : MonoBehaviour
     {
+        public static SoundManager Instance;
         [SerializeField] private AudioClipRefsSO audioClipRefsSO;
+
+        private void Awake()
+        {
+            Instance = this;
+        }
 
         private void Start()
         {
@@ -63,6 +69,11 @@ namespace Core
         private void PlaySound(AudioClip[] clipArray, Vector3 point, float volume = 1f)
         {
             PlaySound(clipArray[Random.Range(0, clipArray.Length)], point, volume);
+        }
+
+        public void PlayFootstepSounds(Vector3 position)
+        {
+            PlaySound(audioClipRefsSO.footstep, position);
         }
     }
 }
