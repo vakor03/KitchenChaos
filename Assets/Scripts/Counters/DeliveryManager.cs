@@ -23,6 +23,7 @@ namespace Counters
         public List<RecipeSO> WaitingRecipeSOList => _waitingRecipeSOList;
 
         public static DeliveryManager Instance { get; private set; }
+        public int RecipesDelivered { get; private set; }
 
         private void Awake()
         {
@@ -67,6 +68,7 @@ namespace Counters
                 if (plateContentsMatches)
                 {
                     _waitingRecipeSOList.RemoveAt(i);
+                    RecipesDelivered++;
                     OnRecipeCompleted?.Invoke();
                     OnRecipeSuccess?.Invoke();
                     return;

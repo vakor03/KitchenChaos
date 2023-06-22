@@ -1,5 +1,6 @@
 ﻿#region
 
+using Counters;
 using TMPro;
 using UnityEngine;
 
@@ -7,9 +8,9 @@ using UnityEngine;
 
 namespace Core
 {
-    public class GameStartCountdownUI : MonoBehaviour
+    public class GameOverUI : MonoBehaviour
     {
-        [SerializeField] private TextMeshProUGUI countdownText;
+        [SerializeField] private TextMeshProUGUI recipesDeliveredText;
 
         private void Start()
         {
@@ -18,16 +19,13 @@ namespace Core
             Hide();
         }
 
-        private void Update()
-        {
-            countdownText.text = Mathf.Ceil(GameManager.Instance.GetCountdownToStartTimer()).ToString();
-        }
-
         private void GameManagerOnStateChanged()
         {
-            if (GameManager.Instance.IsCountdownTimerActive)
+            if (GameManager.Instance.IsGameOver)
             {
                 Show();
+                recipesDeliveredText.text = DeliveryManager.Instance.RecipesDelivered.ToString();
+
             }
             else
             {
@@ -37,12 +35,12 @@ namespace Core
 
         private void Show()
         {
-            countdownText.gameObject.SetActive(true);
+            gameObject.SetActive(true);
         }
 
         private void Hide()
         {
-            countdownText.gameObject.SetActive(false);
+            gameObject.SetActive(false);
         }
     }
 }

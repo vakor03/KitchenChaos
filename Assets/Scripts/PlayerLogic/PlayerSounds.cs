@@ -1,21 +1,23 @@
-﻿using System;
+﻿#region
+
 using Core;
 using UnityEngine;
+
+#endregion
 
 namespace PlayerLogic
 {
     [RequireComponent(typeof(Player))]
     public class PlayerSounds : MonoBehaviour
     {
+        private float _footstepTimer;
+        private float _footstepTimerMax = .1f;
         private Player _player;
 
         private void Awake()
         {
             _player = GetComponent<Player>();
         }
-
-        private float _footstepTimer;
-        private float _footstepTimerMax = .1f;
 
         private void Update()
         {

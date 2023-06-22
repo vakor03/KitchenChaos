@@ -1,33 +1,25 @@
-﻿using System;
+﻿#region
+
+using System;
 using UnityEngine;
+
+#endregion
 
 namespace Core
 {
     public class GameManager : MonoBehaviour
     {
+        private float _countdownToStartTimer = 5f;
+
+        private State _currentState;
+        private float _gamePlayingTimer;
+        private float _gamePlayingTimerMax = 30f;
+        private float _waitingToStartTimer = 3f;
         public static GameManager Instance { get; private set; }
-        public event Action OnStateChanged;
 
         public bool IsGamePlaying => _currentState == State.GamePlaying;
         public bool IsCountdownTimerActive => _currentState == State.CountdownToStart;
-
-        public float GetCountdownToStartTimer()
-        {
-            return _countdownToStartTimer;
-        }
-
-        private enum State
-        {
-            WaitingToStart,
-            CountdownToStart,
-            GamePlaying,
-            GameOver
-        }
-
-        private State _currentState;
-        private float _waitingToStartTimer = 3f;
-        private float _countdownToStartTimer = 5f;
-        private float _gamePlayingTimer = 10f;
+        public bool IsGameOver => _currentState == State.GameOver;
 
         private void Awake()
         {
@@ -53,6 +45,7 @@ namespace Core
                     if (_countdownToStartTimer < 0f)
                     {
                         _currentState = State.GamePlaying;
+                        _gamePlayingTimer = _gamePlayingTimerMax;
                         OnStateChanged?.Invoke();
                     }
 
@@ -71,6 +64,26 @@ namespace Core
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        public event Action OnStateChanged;
+
+        public float GetCountdownToStartTimer()
+        {
+            return _countdownToStartTimer;
+        }
+
+        public float GetPlayingTimerNormalized()
+        {
+            return (_gamePlayingTimerMax - _gamePlayingTimer) / _gamePlayingTimerMax;
+        }
+
+        private enum State
+        {
+            WaitingToStart,
+            CountdownToStart,
+            GamePlaying,
+            GameOver
         }
     }
 }
