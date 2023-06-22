@@ -27,6 +27,16 @@ namespace Core
             Instance = this;
         }
 
+        private void Start()
+        {
+            GameInput.Instance.OnPauseToggled += GameInputOnPauseToggled;
+        }
+
+        private void GameInputOnPauseToggled(object sender, EventArgs e)
+        {
+            ToggleGamePause();
+        }
+
         private void Update()
         {
             switch (_currentState)
@@ -84,6 +94,25 @@ namespace Core
             CountdownToStart,
             GamePlaying,
             GameOver
+        }
+
+        private bool _gameIsPaused  = false;
+        public event Action OnGamePaused;
+        public event Action OnGameUnpaused;
+
+        public void ToggleGamePause()
+        {
+            _gameIsPaused = !_gameIsPaused;
+            if (_gameIsPaused)
+            {
+                Time.timeScale = 0f;
+                OnGamePaused?.Invoke();
+            }
+            else
+            {
+                Time.timeScale = 1f;
+                OnGameUnpaused?.Invoke();
+            }
         }
     }
 }
