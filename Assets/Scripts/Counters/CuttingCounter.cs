@@ -19,6 +19,11 @@ namespace Counters
         public event Action OnCut;
         public static event Action<CuttingCounter> OnAnyCut;
 
+        public new static void ResetStaticData()
+        {
+            OnAnyCut = null;
+        }
+
         public override void Interact()
         {
             if (!HasKitchenObject)

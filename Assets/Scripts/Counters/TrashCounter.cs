@@ -11,6 +11,11 @@ namespace Counters
     {
         public static event Action<TrashCounter> OnAnyTrash;
 
+        public new static void ResetStaticData()
+        {
+            OnAnyTrash = null;
+        }
+
         public override void Interact()
         {
             if (Player.Instance!.HasKitchenObject)

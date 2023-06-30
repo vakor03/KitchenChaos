@@ -16,6 +16,8 @@ namespace Core
         {
             playButton.onClick.AddListener(() => { Loader.LoadScene(Loader.Scene.GameScene); });
             quitButton.onClick.AddListener(Application.Quit);
+
+            Time.timeScale = 1f;
         }
     }
 }

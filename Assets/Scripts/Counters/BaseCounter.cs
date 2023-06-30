@@ -32,6 +32,11 @@ namespace Counters
         public Transform SpawnPoint => counterTopPoint;
         public static event Action<BaseCounter> OnAnyObjectPlacedHere;
 
+        public static void ResetStaticData()
+        {
+            OnAnyObjectPlacedHere = null;
+        }
+
         public void ClearKitchenObject()
         {
             _kitchenObject = null;

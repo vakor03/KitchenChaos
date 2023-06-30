@@ -11,7 +11,7 @@ namespace Core
         public enum Scene
         {
             GameScene,
-            MainScene,
+            MainMenu,
             Loading
         }
 
