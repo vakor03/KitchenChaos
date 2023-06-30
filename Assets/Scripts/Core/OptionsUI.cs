@@ -32,6 +32,7 @@ namespace Core
         [SerializeField] private TextMeshProUGUI interactAlternateButtonText;
         [SerializeField] private TextMeshProUGUI pauseButtonText;
 
+        [SerializeField] private Transform pressAKeyToRebind;
         private void Awake()
         {
             Instance = this;
@@ -48,20 +49,13 @@ namespace Core
             });
             closeButton.onClick.AddListener(Hide);
 
-            moveUpButton.onClick.AddListener(() =>
-            {
-                GameInput.Instance.RebindKey(GameInput.Binding.Move_Up);
-                UpdateVisuals();
-            });
-            moveDownButton.onClick.AddListener(() => { GameInput.Instance.RebindKey(GameInput.Binding.Move_Down); });
-            moveLeftButton.onClick.AddListener(() => { GameInput.Instance.RebindKey(GameInput.Binding.Move_Left); });
-            moveRightButton.onClick.AddListener(() => { GameInput.Instance.RebindKey(GameInput.Binding.Move_Right); });
-            interactButton.onClick.AddListener(() => { GameInput.Instance.RebindKey(GameInput.Binding.Interact); });
-            interactAlternateButton.onClick.AddListener(() =>
-            {
-                GameInput.Instance.RebindKey(GameInput.Binding.Interact_Alternate);
-            });
-            pauseButton.onClick.AddListener(() => { GameInput.Instance.RebindKey(GameInput.Binding.Pause); });
+            moveUpButton.onClick.AddListener(() => RebindBinding(GameInput.Binding.Move_Up));
+            moveDownButton.onClick.AddListener(() => RebindBinding(GameInput.Binding.Move_Down));
+            moveLeftButton.onClick.AddListener(() => RebindBinding(GameInput.Binding.Move_Left));
+            moveRightButton.onClick.AddListener(() => RebindBinding(GameInput.Binding.Move_Right));
+            interactButton.onClick.AddListener(() => RebindBinding(GameInput.Binding.Interact));
+            interactAlternateButton.onClick.AddListener(() => RebindBinding(GameInput.Binding.Interact_Alternate));
+            pauseButton.onClick.AddListener(() => RebindBinding(GameInput.Binding.Pause));
         }
 
         private void Start()
@@ -94,11 +88,33 @@ namespace Core
         public void Show()
         {
             gameObject.SetActive(true);
+            
+            soundEffectsButton.Select();
         }
 
         private void Hide()
         {
             gameObject.SetActive(false);
+        }
+
+        private void ShowPressToRebindKey()
+        {
+            pressAKeyToRebind.gameObject.SetActive(true);
+        }
+
+        private void HidePressToRebindKey()
+        {
+            pressAKeyToRebind.gameObject.SetActive(false);
+        }
+
+        private void RebindBinding(GameInput.Binding binding)
+        {
+            ShowPressToRebindKey();
+            GameInput.Instance.RebindKey(binding,()=>
+            {
+                HidePressToRebindKey();
+                UpdateVisuals();
+            });
         }
     }
 }

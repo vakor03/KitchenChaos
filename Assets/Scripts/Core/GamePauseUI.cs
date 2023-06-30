@@ -43,6 +43,8 @@ namespace Core
         private void Show()
         {
             gameObject.SetActive(true);
+            
+            resumeButton.Select();
         }
     }
 }

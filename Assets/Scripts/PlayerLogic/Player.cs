@@ -171,7 +171,7 @@ namespace PlayerLogic
             if (!canMove)
             {
                 Vector3 moveDirectionX = new Vector3(moveDirection.x, 0, 0).normalized;
-                if (moveDirection.x != 0 && !Physics.CapsuleCast(transform.position,
+                if ((moveDirection.x < -.5f || moveDirection.x > +.5f) && !Physics.CapsuleCast(transform.position,
                         transform.position + Vector3.up * playerHeight,
                         playerRadius,
                         moveDirectionX,
@@ -183,7 +183,7 @@ namespace PlayerLogic
 
                 Vector3 moveDirectionZ = new Vector3(0, 0, moveDirection.z).normalized;
 
-                if (moveDirection.z != 0 && !Physics.CapsuleCast(transform.position,
+                if ((moveDirection.x < -.5f || moveDirection.x > +.5f) && !Physics.CapsuleCast(transform.position,
                         transform.position + Vector3.up * playerHeight,
                         playerRadius,
                         moveDirectionZ,
