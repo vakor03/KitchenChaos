@@ -65,7 +65,7 @@ namespace Counters
         private void RunFryingState()
         {
             _fryingTimer += Time.deltaTime;
-            OnProgressChanged?.Invoke(_fryingTimer/_currentFryingRecipeSO.fryingTimerMax);
+            OnProgressChanged?.Invoke(_fryingTimer / _currentFryingRecipeSO.fryingTimerMax);
             if (_fryingTimer > _currentFryingRecipeSO.fryingTimerMax)
             {
                 KitchenObject.DestroySelf();
@@ -83,8 +83,8 @@ namespace Counters
         private void RunFriedState()
         {
             _burningTimer += Time.deltaTime;
-            OnProgressChanged?.Invoke(_burningTimer/_currentBurningRecipeSO.burningTimerMax);
-            
+            OnProgressChanged?.Invoke(_burningTimer / _currentBurningRecipeSO.burningTimerMax);
+
             if (_burningTimer > _currentBurningRecipeSO.burningTimerMax)
             {
                 KitchenObject.DestroySelf();
@@ -132,7 +132,7 @@ namespace Counters
                         if (plateKitchenObject.TryAddIngredient(KitchenObject.KitchenObjectSO))
                         {
                             KitchenObject.DestroySelf();
-                            
+
                             _currentState = State.Idle;
                             OnStateChanged?.Invoke(_currentState);
                             OnProgressChanged?.Invoke(0f);
@@ -168,6 +168,11 @@ namespace Counters
             }
 
             return null;
+        }
+
+        public bool IsFried()
+        {
+            return _currentState == State.Fried;
         }
     }
 }

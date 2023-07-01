@@ -59,6 +59,7 @@ namespace Core
 
         public event EventHandler OnAlternateInteractAction;
         public event EventHandler OnPauseToggled;
+        public event EventHandler OnBindingRebind;
 
         public Vector2 GetMovementVectorNormalized()
         {
@@ -151,6 +152,8 @@ namespace Core
                     PlayerPrefs.SetString(PLAYER_PREFS_BINDINGS, _playerInputActions.SaveBindingOverridesAsJson());
                     PlayerPrefs.Save();
                 }).Start();
+            
+            OnBindingRebind?.Invoke(this, EventArgs.Empty);
         }
     }
 }

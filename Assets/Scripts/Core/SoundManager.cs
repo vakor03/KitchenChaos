@@ -79,7 +79,18 @@ namespace Core
             PlaySound(audioClipRefsSO.footstep, position);
         }
 
+        public void PlayCountdownSound()
+        {
+            PlaySound(audioClipRefsSO.warning[1], Vector3.zero);
+        }
+
+        public void PlayWarningSound(Vector3 position)
+        {
+            PlaySound(audioClipRefsSO.warning[1], position);
+        }
+
         private float _currentVolume = 1f;
+
         public void ChangeVolume()
         {
             _currentVolume += 0.1f;

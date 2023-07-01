@@ -37,7 +37,7 @@ namespace Counters
             if (_spawnRecipeTimer <= 0f)
             {
                 _spawnRecipeTimer = _spawnRecipeTimerMax;
-                if (_waitingRecipeSOList.Count < _waitingRecipesMax)
+                if (GameManager.Instance.IsGamePlaying && _waitingRecipeSOList.Count < _waitingRecipesMax)
                 {
                     RecipeSO waitingRecipeSO =
                         recipeSOList.recipeSOList[Random.Range(0, recipeSOList.recipeSOList.Count)];

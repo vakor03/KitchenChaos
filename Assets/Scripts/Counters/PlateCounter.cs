@@ -24,7 +24,7 @@ namespace Counters
             _plateSpawnTimer += Time.deltaTime;
             if (_plateSpawnTimer > _plateSpawnMaxTimer)
             {
-                if (_platesSpawnedCount < _platesSpawnedMaxCount)
+                if (GameManager.Instance.IsGamePlaying && _platesSpawnedCount < _platesSpawnedMaxCount)
                 {
                     OnPlateSpawned?.Invoke();
                     _platesSpawnedCount++;
