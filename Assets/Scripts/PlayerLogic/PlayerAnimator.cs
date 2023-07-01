@@ -4,7 +4,7 @@ using UnityEngine;
 
 #endregion
 
-namespace Player
+namespace PlayerLogic
 {
     [RequireComponent(typeof(Animator))]
     public class PlayerAnimator : MonoBehaviour

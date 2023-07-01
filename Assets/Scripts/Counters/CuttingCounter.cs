@@ -2,6 +2,7 @@
 
 using System;
 using Core;
+using PlayerLogic;
 using ScriptableObjects;
 using UnityEngine;
 
@@ -16,15 +17,21 @@ namespace Counters
         private int _cuttingProgress;
         public event Action<float> OnProgressChanged;
         public event Action OnCut;
+        public static event Action<CuttingCounter> OnAnyCut;
+
+        public new static void ResetStaticData()
+        {
+            OnAnyCut = null;
+        }
 
         public override void Interact()
         {
             if (!HasKitchenObject)
             {
-                if (Player.Player.Instance!.HasKitchenObject &&
-                    TryGetRecipeWithInput(Player.Player.Instance.KitchenObject.KitchenObjectSO, out SliceRecipeSO sliceRecipeSO))
+                if (Player.Instance!.HasKitchenObject &&
+                    TryGetRecipeWithInput(Player.Instance.KitchenObject.KitchenObjectSO, out SliceRecipeSO sliceRecipeSO))
                 {
-                    Player.Player.Instance.KitchenObject.KitchenObjectParent = this;
+                    Player.Instance.KitchenObject.KitchenObjectParent = this;
                     _cuttingProgress = 0;
                     
                     OnProgressChanged?.Invoke(GetCuttingProgressNormalized(sliceRecipeSO));
@@ -32,9 +39,19 @@ namespace Counters
             }
             else
             {
-                if (!Player.Player.Instance!.HasKitchenObject)
+                if (!Player.Instance!.HasKitchenObject)
                 {
-                    KitchenObject.KitchenObjectParent = Player.Player.Instance;
+                    KitchenObject.KitchenObjectParent = Player.Instance;
+                }
+                else
+                {
+                    if (Player.Instance!.KitchenObject.TryGetPlate(out PlateKitchenObject plateKitchenObject))
+                    {
+                        if (plateKitchenObject.TryAddIngredient(KitchenObject.KitchenObjectSO))
+                        {
+                            KitchenObject.DestroySelf();
+                        }
+                    }
                 }
             }
         }
@@ -46,6 +63,7 @@ namespace Counters
                 _cuttingProgress++;
                 OnProgressChanged?.Invoke(GetCuttingProgressNormalized(sliceRecipeSO));
                 OnCut?.Invoke();
+                OnAnyCut?.Invoke(this);
                 
                 if (_cuttingProgress == sliceRecipeSO.cuttingProgressMax)
                 {

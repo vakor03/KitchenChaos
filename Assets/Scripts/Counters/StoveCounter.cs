@@ -2,6 +2,7 @@
 
 using System;
 using Core;
+using PlayerLogic;
 using ScriptableObjects;
 using UnityEngine;
 
@@ -64,7 +65,7 @@ namespace Counters
         private void RunFryingState()
         {
             _fryingTimer += Time.deltaTime;
-            OnProgressChanged?.Invoke(_fryingTimer/_currentFryingRecipeSO.fryingTimerMax);
+            OnProgressChanged?.Invoke(_fryingTimer / _currentFryingRecipeSO.fryingTimerMax);
             if (_fryingTimer > _currentFryingRecipeSO.fryingTimerMax)
             {
                 KitchenObject.DestroySelf();
@@ -82,8 +83,8 @@ namespace Counters
         private void RunFriedState()
         {
             _burningTimer += Time.deltaTime;
-            OnProgressChanged?.Invoke(_burningTimer/_currentBurningRecipeSO.burningTimerMax);
-            
+            OnProgressChanged?.Invoke(_burningTimer / _currentBurningRecipeSO.burningTimerMax);
+
             if (_burningTimer > _currentBurningRecipeSO.burningTimerMax)
             {
                 KitchenObject.DestroySelf();
@@ -100,11 +101,11 @@ namespace Counters
         {
             if (!HasKitchenObject)
             {
-                if (Player.Player.Instance!.HasKitchenObject &&
-                    TryGetFryingRecipeWithInput(Player.Player.Instance.KitchenObject.KitchenObjectSO,
+                if (Player.Instance!.HasKitchenObject &&
+                    TryGetFryingRecipeWithInput(Player.Instance.KitchenObject.KitchenObjectSO,
                         out FryingRecipeSO fryingRecipeSO))
                 {
-                    Player.Player.Instance.KitchenObject.KitchenObjectParent = this;
+                    Player.Instance.KitchenObject.KitchenObjectParent = this;
                     _currentFryingRecipeSO = fryingRecipeSO;
 
                     _currentState = State.Frying;
@@ -116,13 +117,27 @@ namespace Counters
             }
             else
             {
-                if (!Player.Player.Instance!.HasKitchenObject)
+                if (!Player.Instance!.HasKitchenObject)
                 {
-                    KitchenObject.KitchenObjectParent = Player.Player.Instance;
+                    KitchenObject.KitchenObjectParent = Player.Instance;
 
                     _currentState = State.Idle;
                     OnStateChanged?.Invoke(_currentState);
                     OnProgressChanged?.Invoke(0f);
+                }
+                else
+                {
+                    if (Player.Instance!.KitchenObject.TryGetPlate(out PlateKitchenObject plateKitchenObject))
+                    {
+                        if (plateKitchenObject.TryAddIngredient(KitchenObject.KitchenObjectSO))
+                        {
+                            KitchenObject.DestroySelf();
+
+                            _currentState = State.Idle;
+                            OnStateChanged?.Invoke(_currentState);
+                            OnProgressChanged?.Invoke(0f);
+                        }
+                    }
                 }
             }
         }
@@ -153,6 +168,11 @@ namespace Counters
             }
 
             return null;
+        }
+
+        public bool IsFried()
+        {
+            return _currentState == State.Fried;
         }
     }
 }

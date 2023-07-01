@@ -9,7 +9,7 @@ using UnityEngine;
 
 #endregion
 
-namespace Player
+namespace PlayerLogic
 {
     public class Player : MonoBehaviour, IKitchenObjectParent
     {
@@ -28,13 +28,19 @@ namespace Player
         private BaseCounter? _selectedCounter;
 
         public static Player? Instance { get; private set; }
-
         public bool HasKitchenObject => _kitchenObject != null;
 
         public KitchenObject KitchenObject
         {
             get => _kitchenObject!;
-            set => _kitchenObject = value;
+            set
+            {
+                _kitchenObject = value;
+                if (_kitchenObject != null)
+                {
+                    OnPickedSomething?.Invoke();
+                }
+            }
         }
 
         public Transform SpawnPoint => itemHoldPoint;
@@ -53,8 +59,8 @@ namespace Player
 
         private void Start()
         {
-            gameInput.OnInteractAction += GameInputOnOnInteractAction;
-            gameInput.OnAlternateInteractAction += GameInputOnOnAlternateInteractAction;
+            gameInput.OnInteractAction += GameInputOnInteractAction;
+            gameInput.OnAlternateInteractAction += GameInputOnAlternateInteractAction;
         }
 
         private void Update()
@@ -62,6 +68,8 @@ namespace Player
             HandleMovement();
             HandleInteractions();
         }
+
+        public event Action OnPickedSomething;
 
         public void ClearKitchenObject()
         {
@@ -75,13 +83,23 @@ namespace Player
             return _isWalking;
         }
 
-        private void GameInputOnOnAlternateInteractAction(object sender, EventArgs e)
+        private void GameInputOnAlternateInteractAction(object sender, EventArgs e)
         {
+            if (!GameManager.Instance.IsGamePlaying)
+            {
+                return;
+            }
+
             if (_selectedCounter != null) _selectedCounter.InteractAlternate();
         }
 
-        private void GameInputOnOnInteractAction(object sender, EventArgs e)
+        private void GameInputOnInteractAction(object sender, EventArgs e)
         {
+            if (!GameManager.Instance.IsGamePlaying)
+            {
+                return;
+            }
+
             if (_selectedCounter != null) _selectedCounter.Interact();
         }
 
@@ -153,7 +171,7 @@ namespace Player
             if (!canMove)
             {
                 Vector3 moveDirectionX = new Vector3(moveDirection.x, 0, 0).normalized;
-                if (moveDirection.x != 0 && !Physics.CapsuleCast(transform.position,
+                if ((moveDirection.x < -.5f || moveDirection.x > +.5f) && !Physics.CapsuleCast(transform.position,
                         transform.position + Vector3.up * playerHeight,
                         playerRadius,
                         moveDirectionX,
@@ -165,7 +183,7 @@ namespace Player
 
                 Vector3 moveDirectionZ = new Vector3(0, 0, moveDirection.z).normalized;
 
-                if (moveDirection.z != 0 && !Physics.CapsuleCast(transform.position,
+                if ((moveDirection.x < -.5f || moveDirection.x > +.5f) && !Physics.CapsuleCast(transform.position,
                         transform.position + Vector3.up * playerHeight,
                         playerRadius,
                         moveDirectionZ,

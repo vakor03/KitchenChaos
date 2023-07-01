@@ -2,6 +2,7 @@
 
 using System;
 using Core;
+using PlayerLogic;
 using ScriptableObjects;
 using UnityEngine;
 
@@ -23,7 +24,7 @@ namespace Counters
             _plateSpawnTimer += Time.deltaTime;
             if (_plateSpawnTimer > _plateSpawnMaxTimer)
             {
-                if (_platesSpawnedCount < _platesSpawnedMaxCount)
+                if (GameManager.Instance.IsGamePlaying && _platesSpawnedCount < _platesSpawnedMaxCount)
                 {
                     OnPlateSpawned?.Invoke();
                     _platesSpawnedCount++;
@@ -38,12 +39,12 @@ namespace Counters
 
         public override void Interact()
         {
-            if (!Player.Player.Instance!.HasKitchenObject)
+            if (!Player.Instance!.HasKitchenObject)
             {
                 if (_platesSpawnedCount > 0)
                 {
                     _platesSpawnedCount--;
-                    KitchenObject.SpawnKitchenObject(plateKitchenObjectSO, Player.Player.Instance);
+                    KitchenObject.SpawnKitchenObject(plateKitchenObjectSO, Player.Instance);
                     OnPlateRemoved?.Invoke();
                 }
             }
